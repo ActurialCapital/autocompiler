@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "autocompiler"
+version = "0.1.0"
+description = "Auto-compiler using numba."
+authors = ["ActurialCapital"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numba = "^0.59.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
