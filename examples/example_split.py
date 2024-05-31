@@ -57,9 +57,8 @@ def autocompiler_split_arr(arr: np.array) -> tp.Tuple[np.array, np.array]:
     stop[k] = len(arr)
     return start[:k + 1], stop[:k + 1]
 
-
 if __name__ == '__main__':
-
+    
     arr = np.random.normal(size=(5000000, 1))
 
     start_time = time.time()

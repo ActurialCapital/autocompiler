@@ -33,6 +33,10 @@
 
 `autocompiler` aims to optimize the performance of your Python code, making it faster and more efficient. By leveraging `numba`, a just-in-time (JIT) compiler that translates a subset of Python and `numpy` code into fast machine code, `autocompiler` accelerates computationally intensive tasks. Additionally, the package includes a caching mechanism that stores the results of expensive function calls, allowing your code to avoid redundant computations and run even faster.
 
+* **Numba Integration**: `autocompiler` uses `numba` to compile Python functions into optimized machine code, resulting in significant performance improvements for numerical and scientific computing tasks.
+* **Efficient Caching**: The built-in caching system reduces redundant computations by storing the results of function calls. This ensures that your code runs efficiently, especially when dealing with repeated or similar operations.
+* **Easy to Use**: With a simple and intuitive API, AutoCompiler allows you to enhance the performance of your existing code with minimal modifications.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -51,6 +55,54 @@ To get started with `autocompiler`, you can clone the repository to your local m
 ```sh
 $ git clone https://github.com/ActurialCapital/autocompiler.git
 ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## Getting Started
+
+To begin using `autocompiler`, you'll need to import the necessary libraries. Here is a basic setup:
+
+```python
+>>> import autocompiler
+>>> import numpy as np
+```
+
+Let's consider an example function that splits an array with gaps into start and end indices:
+
+```python
+>>> def split_arr(arr: np.array) -> tuple:
+...     if len(arr) == 0:
+...         raise ValueError("Range is empty")
+...     start = np.empty(len(arr), dtype=np.int_)
+...     stop = np.empty(len(arr), dtype=np.int_)
+...     start[0] = 0
+...     k = 0
+...     for i in range(1, len(arr)):
+...         if arr[i] - arr[i - 1] != 1:
+...             stop[k] = i
+...             k += 1
+...             start[k] = i
+...     stop[k] = len(arr)
+...     return start[:k + 1], stop[:k + 1]
+```
+
+By using `autocompiler`, you can enhance the performance of the above function. Here's how to do it:
+
+```python
+>>> @autocompiler.jit(cache=True)
+>>> def autocompiler_split_arr(arr: np.array) -> tuple:
+...     return split_arr(arr)
+```
+
+The optimized function `autocompiler_split_arr` can significantly reduce execution time compared to the original implementation. Here are the performance results:
+
+```shell
+$ 1000000 loops, best of 3: 12.09 usec per loop    # Original function
+$ 1000000 loops, best of 3: 0.636 usec per loop    # Optimized with autocompiler
+```
+
+These results demonstrate how `autocompiler` can dramatically improve the performance of your code, reducing computation time and enhancing efficiency.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
